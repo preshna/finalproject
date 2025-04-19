@@ -1,0 +1,2 @@
+C:/Users/97798/Dropbox/PC/Downloads/wastewise-waste-management-android-app-flutter/wastewise-waste-management-android-app-flutter/android/app/.cxx/Debug/206c6925/armeabi-v7a/CMakeFiles/edit_cache.dir
+C:/Users/97798/Dropbox/PC/Downloads/wastewise-waste-management-android-app-flutter/wastewise-waste-management-android-app-flutter/android/app/.cxx/Debug/206c6925/armeabi-v7a/CMakeFiles/rebuild_cache.dir
