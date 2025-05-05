@@ -1,0 +1,2 @@
+C:/Users/97798/Downloads/wastewise-waste-management-android-app-flutter/wastewise-waste-management-android-app-flutter/android/app/.cxx/Debug/h3n6v334/x86/CMakeFiles/edit_cache.dir
+C:/Users/97798/Downloads/wastewise-waste-management-android-app-flutter/wastewise-waste-management-android-app-flutter/android/app/.cxx/Debug/h3n6v334/x86/CMakeFiles/rebuild_cache.dir
