@@ -60,7 +60,7 @@ class _ProductDetailsState extends State<ProductDetails> {
             height: 10.0,
           ),
           Text(
-            '${item.price} LKR',
+            '${item.price} RS',
             style: const TextStyle(
               fontSize: 18.0,
               fontWeight: FontWeight.w700,

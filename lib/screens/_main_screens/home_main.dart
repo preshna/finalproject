@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:user_repository/user_repository.dart';
+import 'package:waste_wise/screens/chatbot_screen.dart';
 
 class HomeMain extends StatefulWidget {
   const HomeMain({super.key});
@@ -13,7 +14,6 @@ class _HomeMainState extends State<HomeMain> {
   final TextEditingController _searchController = TextEditingController();
   String searchQuery = '';
 
-  // Static list of vendor ads
   final List<Map<String, String>> vendorAds = [
     {
       'vendorName': 'Green Recycling Ltd.',
@@ -46,17 +46,27 @@ class _HomeMainState extends State<HomeMain> {
   Widget build(BuildContext context) {
     final userRepo = Provider.of<FirebaseUserRepo>(context, listen: false);
 
-    // Filter the vendorAds list based on the search query
     final List<Map<String, String>> filteredAds = vendorAds
         .where((ad) =>
-            ad['vendorName']!
-                .toLowerCase()
-                .contains(searchQuery.toLowerCase()) ||
-            ad['wasteType']!.toLowerCase().contains(searchQuery.toLowerCase()))
+    ad['vendorName']!
+        .toLowerCase()
+        .contains(searchQuery.toLowerCase()) ||
+        ad['wasteType']!.toLowerCase().contains(searchQuery.toLowerCase()))
         .toList();
 
     return Scaffold(
       backgroundColor: Colors.transparent,
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const ChatbotScreen()),
+          );
+        },
+        backgroundColor: Colors.green,
+        child: const Icon(Icons.chat),
+        tooltip: 'Ask WasteBot',
+      ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -82,17 +92,16 @@ class _HomeMainState extends State<HomeMain> {
                               builder: (context, snapshot) {
                                 if (snapshot.connectionState ==
                                     ConnectionState.waiting) {
-                                  return const SizedBox(height: 35,); // Show loading indicator while waiting
+                                  return const SizedBox(height: 35);
                                 } else if (snapshot.hasError) {
-                                  return Text(
-                                      'Error: ${snapshot.error}'); // Show error if there is one
+                                  return Text('Error: ${snapshot.error}');
                                 } else if (!snapshot.hasData) {
                                   return const Text(
                                     "Hi, User",
                                     style: TextStyle(
                                         fontSize: 24,
                                         fontWeight: FontWeight.bold),
-                                  ); // Handle case where there's no data
+                                  );
                                 } else {
                                   MyUser user = snapshot.data!;
                                   return Text(
@@ -118,7 +127,6 @@ class _HomeMainState extends State<HomeMain> {
                       ),
                     ],
                   ),
-                  // Search bar
                   TextField(
                     controller: _searchController,
                     onChanged: (value) {
@@ -162,7 +170,7 @@ class _HomeMainState extends State<HomeMain> {
               child: Column(
                 children: List.generate(
                   filteredAds.length,
-                  (index) {
+                      (index) {
                     var ad = filteredAds[index];
                     return Padding(
                       padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
@@ -180,7 +188,7 @@ class _HomeMainState extends State<HomeMain> {
                             children: [
                               Row(
                                 mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
                                     ad['vendorName']!,
@@ -217,7 +225,7 @@ class _HomeMainState extends State<HomeMain> {
                               const SizedBox(height: 8),
                               Row(
                                 mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                MainAxisAlignment.spaceBetween,
                                 children: [
                                   OutlinedButton.icon(
                                     onPressed: () {},
@@ -226,7 +234,7 @@ class _HomeMainState extends State<HomeMain> {
                                     label: Text(
                                       "Details",
                                       style:
-                                          TextStyle(color: Colors.green[600]),
+                                      TextStyle(color: Colors.green[600]),
                                     ),
                                     style: OutlinedButton.styleFrom(
                                       side: BorderSide(

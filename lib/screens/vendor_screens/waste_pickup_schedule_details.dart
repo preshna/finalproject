@@ -404,7 +404,7 @@ class _CompleteOrderDialogState extends State<CompleteOrderDialog> {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  "LKR. ${transaction.value}",
+                  "RS. ${transaction.value}",
                   style: const TextStyle(
                     fontSize: 16,
                     color: Colors.black87,
@@ -528,7 +528,7 @@ class _CompleteOrderDialogState extends State<CompleteOrderDialog> {
             ),
             const SizedBox(height: 16),
             Text(
-              "Total Cost: LKR. $_totalCost",
+              "Total Cost: RS. $_totalCost",
               style: const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,

@@ -89,7 +89,8 @@ class _SignupLoginPageState extends State<SignupLoginPage> {
                 const SizedBox(height: 30),
                 Image.asset(
                   'assets/images/waste-wise-high-resolution-logo-transparent.png',
-                  height: 100,
+                  height: 250,
+                  width: 250,
                 ),
                 const SizedBox(height: 30),
                 Text(

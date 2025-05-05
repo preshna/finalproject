@@ -297,7 +297,7 @@ class _VendorHistoryPageState extends State<VendorHistoryPage> {
                                             const Icon(Icons.attach_money),
                                             const SizedBox(width: 4),
                                             Text(
-                                                "LKR. ${transaction.value.toStringAsFixed(2)}"), // Value
+                                                "RS. ${transaction.value.toStringAsFixed(2)}"), // Value
                                           ],
                                         ),
                                         const SizedBox(height: 8),

@@ -230,7 +230,7 @@ class _TransactionDetailPageState extends State<TransactionDetailPage> {
                         const Icon(Icons.money, size: 30),
                         const SizedBox(width: 8),
                         Text(
-                          "LKR. ${widget.transaction.value.toStringAsFixed(2)}",
+                          "RS. ${widget.transaction.value.toStringAsFixed(2)}",
                           style: const TextStyle(
                             fontSize: 40,
                             fontWeight: FontWeight.bold,

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart'; // Import this for changing the system UI
+import 'package:flutter/services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:waste_wise/screens/vendor_screens/accept_waste_details.dart';
 
@@ -12,22 +12,23 @@ class VendorHomePage extends StatefulWidget {
 
 class _VendorHomePageState extends State<VendorHomePage> {
   @override
-  Widget build(BuildContext context) {
-    // Set the status bar color to black
+  void initState() {
+    super.initState();
+
+    // Set the status bar icons to dark (on light background)
     SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(
-        // Change the status bar color to black
-        statusBarIconBrightness:
-            Brightness.dark, // White icons for dark status bar
+        statusBarColor: Colors.transparent,
+        statusBarIconBrightness: Brightness.dark,
       ),
     );
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor:
-          const Color.fromARGB(36, 0, 0, 0), // Make the background transparent
+      backgroundColor: const Color.fromARGB(36, 0, 0, 0),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
             height: 240,
@@ -38,7 +39,7 @@ class _VendorHomePageState extends State<VendorHomePage> {
               ),
               image: DecorationImage(
                 image: AssetImage("assets/images/vendortruck.jpg"),
-                fit: BoxFit.fill,
+                fit: BoxFit.cover,
               ),
             ),
             child: const Padding(
@@ -47,29 +48,28 @@ class _VendorHomePageState extends State<VendorHomePage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Row(
-                        children: [
-                          Text(
-                            "Hi Eshan,",
-                            style: TextStyle(
-                                fontSize: 24, fontWeight: FontWeight.normal),
-                          ),
-                        ],
+                      Text(
+                        "Hi Preshna,",
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.normal,
+                          color: Colors.black,
+                        ),
                       ),
-                      Row(
-                        children: [
-                          Text(
-                            "Manage your Waste pickups",
-                            style: TextStyle(
-                                color: Color.fromARGB(255, 0, 0, 0),
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold),
-                          )
-                        ],
-                      )
+                      SizedBox(height: 4),
+                      Text(
+                        "Manage your Waste pickups",
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                        ),
+                      ),
                     ],
                   ),
+                  SizedBox(height: 12),
                   TextField(
                     decoration: InputDecoration(
                       hintText: 'Search',
@@ -96,147 +96,148 @@ class _VendorHomePageState extends State<VendorHomePage> {
           ),
           const Padding(
             padding: EdgeInsets.fromLTRB(16, 18, 16, 8),
-            child: Text(
-              'MY PICKUP REQUESTS',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                'MY PICKUP REQUESTS',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
             ),
           ),
           Expanded(
             child: StreamBuilder<QuerySnapshot>(
               stream: FirebaseFirestore.instance
                   .collection('waste_pickups')
-                  .where('status',
-                      isNotEqualTo: 'accepted') // Filter out accepted requests
-                  .orderBy(
-                      'status') // Ensure the orderBy includes the filtered field
+                  .where('status', isNotEqualTo: 'accepted')
+                  .orderBy('status')
                   .orderBy('timestamp', descending: true)
                   .snapshots(),
               builder: (context, snapshot) {
-                if (!snapshot.hasData) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(child: CircularProgressIndicator());
                 }
 
-                var pickupData = snapshot.data!.docs;
+                if (snapshot.hasError) {
+                  return const Center(
+                    child: Text("Something went wrong. Please try again."),
+                  );
+                }
 
-                return SingleChildScrollView(
-                  scrollDirection: Axis.vertical,
-                  child: Column(
-                    children: List.generate(
-                      pickupData.length,
-                      (index) {
-                        var pickup = pickupData[index];
-                        String documentId = pickup.id; // Document ID
+                if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                  return const Center(
+                    child: Text("No pickup requests found."),
+                  );
+                }
 
-                        return Padding(
-                          padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Colors.green[50],
-                              border: Border.all(
-                                  color: const Color.fromARGB(105, 67, 160, 72),
-                                  width: 1),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                final pickupData = snapshot.data!.docs;
+
+                return ListView.builder(
+                  itemCount: pickupData.length,
+                  padding: const EdgeInsets.only(bottom: 16),
+                  itemBuilder: (context, index) {
+                    final pickup = pickupData[index];
+                    final pickupMap =
+                        pickup.data() as Map<String, dynamic>? ?? {};
+
+                    return Padding(
+                      padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.green[50],
+                          border: Border.all(
+                              color: const Color.fromARGB(105, 67, 160, 72),
+                              width: 1),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              // Left side details
+                              Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  // Left side (details)
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                  const Text(
+                                    "Pickup Request",
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 8),
+                                  Row(
                                     children: [
-                                      const Text(
-                                        "Pickup Request",
-                                        style: TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.black,
-                                        ),
-                                      ),
-                                      const SizedBox(height: 8),
-                                      Row(
-                                        children: [
-                                          const Icon(Icons.calendar_today,
-                                              size: 18, color: Colors.black),
-                                          const SizedBox(width: 8),
-                                          Text(
-                                            pickup['scheduledDate'],
-                                            style: const TextStyle(
-                                                color: Colors.black),
-                                          ),
-                                        ],
-                                      ),
-                                      const SizedBox(height: 8),
-                                      Row(
-                                        children: [
-                                          const Icon(Icons.delete_outline,
-                                              size: 18, color: Colors.black),
-                                          const SizedBox(width: 8),
-                                          Text(
-                                            pickup['wasteType'],
-                                            style: const TextStyle(
-                                                color: Colors.black),
-                                          ),
-                                        ],
+                                      const Icon(Icons.calendar_today,
+                                          size: 18, color: Colors.black),
+                                      const SizedBox(width: 8),
+                                      Text(
+                                        pickupMap['scheduledDate'] ??
+                                            'Not Available',
+                                        style: const TextStyle(
+                                            color: Colors.black),
                                       ),
                                     ],
                                   ),
-                                  // Right side (Accept Button)
-                                  OutlinedButton.icon(
-                                    onPressed: () {
-                                      var pickupData = pickup.data()
-                                          as Map<String, dynamic>?;
-
-                                      if (pickupData != null) {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                AcceptWasteDetails(
-                                                    pickup: pickupData,
-                                                    documentId: pickup.id),
-                                          ),
-                                        );
-                                      } else {
-                                        // Handle the case where pickupData is null
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          const SnackBar(
-                                              content: Text(
-                                                  'Pickup details are missing')),
-                                        );
-                                      }
-                                    }, // Change the icon
-                                    label: const Text(
-                                      "ACCEPT",
-                                      style: TextStyle(
-                                          color: Color.fromARGB(255, 0, 0, 0),
-                                          fontSize: 17),
-                                    ),
-                                    style: OutlinedButton.styleFrom(
-                                      side: const BorderSide(
-                                          color: Color.fromARGB(
-                                              255, 251, 255, 251),
-                                          width: 1),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(8),
+                                  const SizedBox(height: 8),
+                                  Row(
+                                    children: [
+                                      const Icon(Icons.delete_outline,
+                                          size: 18, color: Colors.black),
+                                      const SizedBox(width: 8),
+                                      Text(
+                                        pickupMap['wasteType'] ??
+                                            'Not Specified',
+                                        style: const TextStyle(
+                                            color: Colors.black),
                                       ),
-                                      backgroundColor: const Color.fromARGB(
-                                          255, 115, 238, 113),
-                                    ),
+                                    ],
                                   ),
                                 ],
                               ),
-                            ),
+                              // Right side accept button
+                              OutlinedButton.icon(
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => AcceptWasteDetails(
+                                        pickup: pickupMap,
+                                        documentId: pickup.id,
+                                      ),
+                                    ),
+                                  );
+                                },
+                                label: const Text(
+                                  "ACCEPT",
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 17,
+                                  ),
+                                ),
+                                icon: const Icon(
+                                  Icons.check_circle,
+                                  color: Colors.black,
+                                  size: 20,
+                                ),
+                                style: OutlinedButton.styleFrom(
+                                  side: const BorderSide(
+                                      color: Color.fromARGB(255, 0, 0, 0)),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  backgroundColor: const Color.fromARGB(
+                                      255, 115, 238, 113),
+                                ),
+                              ),
+                            ],
                           ),
-                        );
-                      },
-                    ),
-                  ),
+                        ),
+                      ),
+                    );
+                  },
                 );
               },
             ),

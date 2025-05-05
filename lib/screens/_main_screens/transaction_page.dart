@@ -308,7 +308,7 @@ class _TransactionMainState extends State<TransactionMain> {
                                             const Icon(Icons.attach_money),
                                             const SizedBox(width: 4),
                                             Text(
-                                                "LKR. ${transaction.value.toStringAsFixed(2)}"), // Value
+                                                "RS. ${transaction.value.toStringAsFixed(2)}"), // Value
                                           ],
                                         ),
                                         const SizedBox(height: 8),

@@ -62,7 +62,7 @@ class _VendorProfilePageState extends State<VendorProfilePage> {
                 ),
                 const SizedBox(height: 2), // Space between avatar and text
                 const Text(
-                  'Eshan Nayanapriya', // Hardcoded Name
+                  'Preshna Adhikari', // Hardcoded Name
                   style: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.bold,
@@ -70,7 +70,7 @@ class _VendorProfilePageState extends State<VendorProfilePage> {
                 ),
                 const SizedBox(height: 8), // Space between name and email
                 const Text(
-                  'eshan@email.com', // Hardcoded Email
+                  'preshna@email.com', // Hardcoded Email
                   style: TextStyle(
                     fontSize: 16,
                     color: Colors.grey,

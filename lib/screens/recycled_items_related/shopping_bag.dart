@@ -71,7 +71,7 @@ class _ShoppingBagPageState extends State<ShoppingBagPage> {
                       children: [
                         const Text("Single Price",
                             style: TextStyle(fontSize: 16)),
-                        Text("${singlePrice.toStringAsFixed(2)} LKR",
+                        Text("${singlePrice.toStringAsFixed(2)} RS",
                             style: const TextStyle(fontSize: 16)),
                       ],
                     ),
@@ -124,7 +124,7 @@ class _ShoppingBagPageState extends State<ShoppingBagPage> {
                         const Text("Order Total",
                             style: TextStyle(fontSize: 16)),
                         Text(
-                          "${totalPrice.toStringAsFixed(2)} LKR",
+                          "${totalPrice.toStringAsFixed(2)} RS",
                           style: const TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 18),
                         ),
@@ -147,7 +147,7 @@ class _ShoppingBagPageState extends State<ShoppingBagPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "${totalPrice.toStringAsFixed(2)} LKR",
+                    "${totalPrice.toStringAsFixed(2)} RS",
                     style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,

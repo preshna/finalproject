@@ -64,7 +64,8 @@ class _VendorLoginPageState extends State<VendorLoginPage> {
                 const SizedBox(height: 30),
                 Image.asset(
                   'assets/images/waste-wise-high-resolution-logo-transparent.png',
-                  height: 100,
+                  height: 250,
+                  width: 250,
                 ),
                 const SizedBox(height: 30),
                 const Text(
