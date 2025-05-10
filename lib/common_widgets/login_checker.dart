@@ -24,8 +24,7 @@ class LoginChecker extends StatelessWidget {
                     padding: const EdgeInsets.all(20.0),
                     child: Image.asset(
                       'assets/images/waste-wise-high-resolution-logo-transparent.png',
-                      height: 250,
-                      width: 250,
+                      height: 150,
                     ),
                   ),
                   const SizedBox(height: 40,),

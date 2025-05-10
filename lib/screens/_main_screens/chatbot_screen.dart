@@ -56,6 +56,7 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
       appBar: AppBar(
         title: const Text('WasteWise Chatbot'),
         backgroundColor: Colors.green[700],
+        automaticallyImplyLeading: false, // This removes the leading icon (back button)
       ),
       body: Column(
         children: [

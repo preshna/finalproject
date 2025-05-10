@@ -116,7 +116,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
                             ),
                           ),
                           Text(
-                            '$totalAmount RS',
+                            '$totalAmount LKR',
                             style: TextStyle(
                               fontSize: 22.0,
                               fontWeight: FontWeight.bold,

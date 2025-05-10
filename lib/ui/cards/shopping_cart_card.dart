@@ -41,7 +41,7 @@ class _ShoppingCartCardState extends State<ShoppingCartCard> {
                 ),
               ),
               child: Text(
-                'RS ${widget.cartItem.price}',
+                'LKR ${widget.cartItem.price}',
                 style: const TextStyle(
                   color: Colors.white,
                   fontSize: 15,

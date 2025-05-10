@@ -28,10 +28,11 @@ class _ProductDetailsState extends State<ProductDetails> {
     String userid = user.currentUser!.uid;
 
     final ProductModel item =
-        ModalRoute.of(context)!.settings.arguments as ProductModel;
+    ModalRoute.of(context)!.settings.arguments as ProductModel;
 
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+      color: Colors.black, // Dark background color
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -45,7 +46,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                   style: const TextStyle(
                     fontSize: 25.0,
                     fontWeight: FontWeight.bold,
-                    color: Colors.black,
+                    color: Colors.white, // Light text color
                   ),
                 ),
               ),
@@ -60,21 +61,22 @@ class _ProductDetailsState extends State<ProductDetails> {
             height: 10.0,
           ),
           Text(
-            '${item.price} RS',
+            '${item.price} LKR',
             style: const TextStyle(
               fontSize: 18.0,
               fontWeight: FontWeight.w700,
+              color: Colors.white, // Light text color
             ),
           ),
           const SizedBox(
             height: 10.0,
           ),
-          
           Text(
             item.longDescription,
             style: const TextStyle(
               fontSize: 16.0,
               fontWeight: FontWeight.w500,
+              color: Colors.white70, // Lighter text color for description
             ),
           ),
           const SizedBox(
@@ -99,7 +101,7 @@ class _ProductDetailsState extends State<ProductDetails> {
               children: [
                 const Text(
                   'Color',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
                 ),
                 const SizedBox(
                   height: 10.0,
@@ -115,7 +117,6 @@ class _ProductDetailsState extends State<ProductDetails> {
                           onTap: () {
                             setState(() {
                               selectedColor = color;
-
                               colorSelect = 2;
                             });
                           },
@@ -159,7 +160,7 @@ class _ProductDetailsState extends State<ProductDetails> {
 
     // Darken the color by reducing the lightness
     final darkenedHsl =
-        hslColor.withLightness((hslColor.lightness - factor).clamp(0.0, 1.0));
+    hslColor.withLightness((hslColor.lightness - factor).clamp(0.0, 1.0));
 
     // Return the color with reduced lightness, which makes it appear darker
     return darkenedHsl.toColor();
@@ -172,7 +173,7 @@ class _ProductDetailsState extends State<ProductDetails> {
       children: [
         const Text(
           'Size',
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
         ),
         const SizedBox(
           height: 10.0,
@@ -186,9 +187,9 @@ class _ProductDetailsState extends State<ProductDetails> {
                 width: 50,
                 margin: const EdgeInsets.symmetric(horizontal: 5),
                 decoration: BoxDecoration(
-                    color: Colors.green[100],
+                    color: Colors.green[800],
                     border: Border.all(
-                      color: Colors.green,
+                      color: Colors.green[700]!,
                       width: 1,
                     ),
                     borderRadius: BorderRadius.circular(10)),
@@ -196,7 +197,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                   child: Text(
                     '6',
                     style: TextStyle(
-                      color: Colors.black,
+                      color: Colors.white,
                       fontWeight: FontWeight.w700,
                       fontSize: 15,
                     ),
@@ -218,7 +219,7 @@ class _ProductDetailsState extends State<ProductDetails> {
       margin: const EdgeInsets.symmetric(horizontal: 5),
       padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 3),
       decoration: BoxDecoration(
-          border: Border.all(width: 1, color: Colors.black),
+          border: Border.all(width: 1, color: Colors.white),
           borderRadius: BorderRadius.circular(50)),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -247,6 +248,7 @@ class _ProductDetailsState extends State<ProductDetails> {
               style: const TextStyle(
                 fontSize: 20.0,
                 fontWeight: FontWeight.bold,
+                color: Colors.white, // Light text color
               ),
             ),
           ),
@@ -270,7 +272,7 @@ class _ProductDetailsState extends State<ProductDetails> {
   Container amountbuttons(IconData icon) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.grey[200],
+        color: Colors.grey[800],
         border: Border.all(
           color: Colors.transparent,
         ),
@@ -279,7 +281,7 @@ class _ProductDetailsState extends State<ProductDetails> {
       child: Icon(
         icon, // Use the determined icon here
         size: 30.0,
-        color: Colors.black,
+        color: Colors.white,
       ),
     );
   }
@@ -294,22 +296,22 @@ class _ProductDetailsState extends State<ProductDetails> {
             backgroundColor: Colors.black,
             foregroundColor: Colors.white,
             padding:
-                const EdgeInsets.symmetric(vertical: 12.0, horizontal: 20.0),
+            const EdgeInsets.symmetric(vertical: 12.0, horizontal: 20.0),
           ),
           onPressed: isAddtoCartLoading
               ? null // Disable button while SnackBar is active
               : () async {
-                  if (selectedColor == Colors.transparent) {
-                    if (mounted) {
-                      CustomSnackbar().show(
-                          context: widget.parentContext,
-                          message: 'Please select a color!',
-                          type: 'w');
-                    }
-                  } else {
-                    await _addToCart(item, userid, cart, context);
-                  }
-                },
+            if (selectedColor == Colors.transparent) {
+              if (mounted) {
+                CustomSnackbar().show(
+                    context: widget.parentContext,
+                    message: 'Please select a color!',
+                    type: 'w');
+              }
+            } else {
+              await _addToCart(item, userid, cart, context);
+            }
+          },
           child: isAddtoCartLoading
               ? progressIndicator()
               : const Text('Add to Cart', style: TextStyle(fontSize: 18.0)),
@@ -322,7 +324,7 @@ class _ProductDetailsState extends State<ProductDetails> {
             backgroundColor: Colors.green[700],
             foregroundColor: Colors.white,
             padding:
-                const EdgeInsets.symmetric(vertical: 12.0, horizontal: 20.0),
+            const EdgeInsets.symmetric(vertical: 12.0, horizontal: 20.0),
           ),
           onPressed: () {
             if(selectedColor == Colors.transparent) {

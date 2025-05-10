@@ -11,8 +11,8 @@ class AddressCard extends StatefulWidget {
 
 class _AddressCardState extends State<AddressCard> {
   // Initial address and contact information
-  String _address = "Kathmandu,Thulobharayang";
-  String _contact = "01-123456";
+  String _address = "216 St Paul's Rd, Malabe, Sri Lanka";
+  String _contact = "+44-784232";
 
   // Function to open the dialog for editing address
   Future<void> _editAddress() async {

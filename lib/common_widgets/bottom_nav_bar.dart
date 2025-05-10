@@ -8,6 +8,7 @@ import 'package:waste_wise/screens/_main_screens/waste_pickup_schedule_main.dart
 
 class BottomNavBar extends StatefulWidget {
   const BottomNavBar({super.key});
+
   @override
   State<BottomNavBar> createState() => _BottomNavBarState();
 }
@@ -26,13 +27,14 @@ class _BottomNavBarState extends State<BottomNavBar> {
     Center(child: WastePickupScheduleMain()),
     Center(child: RecycledItemsMain()),
     Center(child: TransactionMain()),
-    Center(
-      child: ProfilePage(),
-    )
+    Center(child: ProfilePage()),
   ];
 
   @override
   Widget build(BuildContext context) {
+    // Check the current theme (dark or light)
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
     return BackgroundImageWrapper(
       child: Scaffold(
         backgroundColor: Colors.transparent,
@@ -40,18 +42,17 @@ class _BottomNavBarState extends State<BottomNavBar> {
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: _selectedIndex,
           onTap: _onItemTapped,
-          backgroundColor: Colors.white,
+          backgroundColor: isDarkMode ? Colors.black87 : Colors.white,
           type: BottomNavigationBarType.fixed,
-          selectedItemColor: Colors.green[600], // Color for the selected item
-          unselectedItemColor: Colors.grey[500], // Color for unselected items
+          selectedItemColor: isDarkMode ? Colors.green[400] : Colors.green[600],
+          unselectedItemColor: isDarkMode ? Colors.grey[600] : Colors.grey[500],
           showUnselectedLabels: false, // Hides unselected labels
-          showSelectedLabels: true, // Hides selected labels
+          showSelectedLabels: true, // Shows selected labels
           elevation: 15, // Adds shadow effect
           items: const [
             BottomNavigationBarItem(
               icon: Icon(Icons.home_outlined),
-              activeIcon:
-                  Icon(Icons.home, size: 30), // Active icon with larger size
+              activeIcon: Icon(Icons.home, size: 30), // Active icon with larger size
               label: 'Home',
             ),
             BottomNavigationBarItem(
@@ -60,11 +61,8 @@ class _BottomNavBarState extends State<BottomNavBar> {
               label: 'Schedule',
             ),
             BottomNavigationBarItem(
-              icon: Icon(
-                Icons.store_outlined,
-              ),
-              activeIcon:
-                  Icon(Icons.store, size: 30), // Active icon with larger size
+              icon: Icon(Icons.store_outlined),
+              activeIcon: Icon(Icons.store, size: 30), // Active icon with larger size
               label: 'Store',
             ),
             BottomNavigationBarItem(

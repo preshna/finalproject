@@ -8,8 +8,7 @@ import 'package:waste_wise/screens/recycled_items_related/ratings.dart';
 import 'package:waste_wise/screens/recycled_items_related/shopping_bag.dart';
 import 'package:waste_wise/screens/recycled_items_related/shopping_cart.dart';
 import 'package:waste_wise/screens/_main_screens/signup_login_page.dart';
-import 'package:waste_wise/screens/chatbot_screen.dart';
-
+// Make sure to import all your page files
 
 class AppRoutes {
   static Map<String, WidgetBuilder> getRoutes() {
@@ -22,8 +21,7 @@ class AppRoutes {
       '/signupandlogin': (context) => const SignupLoginPage(),
       '/shoppingbag' : (context) => const ShoppingBagPage(),
       '/reviews' : (context) => const ReviewPage(),
-      '/checkout': (context) => const CheckoutPage(),
-      '/chatbot': (context) => const ChatbotScreen(), // 👈 NEW
+      '/checkout': (context) => const CheckoutPage()
     };
   }
 }

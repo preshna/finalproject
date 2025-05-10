@@ -11,6 +11,7 @@ import 'package:provider/provider.dart';
 
 class RecycledItemsMain extends StatefulWidget {
   const RecycledItemsMain({super.key});
+
   @override
   State<RecycledItemsMain> createState() => RecycledItemsMainState();
 }
@@ -40,7 +41,7 @@ class RecycledItemsMainState extends State<RecycledItemsMain> {
   void _fetchSearchProducts(String query) {
     final filteredProductsm = filteredProducts
         .where((product) =>
-            product.name.toLowerCase().contains(query.toLowerCase()))
+        product.name.toLowerCase().contains(query.toLowerCase()))
         .toList();
     setState(() {
       _products = filteredProductsm;
@@ -71,11 +72,11 @@ class RecycledItemsMainState extends State<RecycledItemsMain> {
         isLoading = true;
       });
       final productService =
-          Provider.of<ProductService>(context, listen: false);
+      Provider.of<ProductService>(context, listen: false);
       final products = await productService.getAllProducts(sortingType);
       filteredProducts = products
           .where((product) =>
-              product.name.toLowerCase().contains(query.toLowerCase()))
+          product.name.toLowerCase().contains(query.toLowerCase()))
           .toList();
       setState(() {
         _products = filteredProducts;
@@ -101,15 +102,17 @@ class RecycledItemsMainState extends State<RecycledItemsMain> {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
     return Scaffold(
-      backgroundColor: Colors.transparent,
+      backgroundColor: isDarkMode ? Colors.black : Colors.white,
       appBar: const CustomAppBar(name: 'Recycled Products'),
       body: Column(
         children: [
           // Search bar fixed under the AppBar
           Padding(
             padding:
-                const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
+            const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
             child: TextField(
               onChanged: (query) {
                 _delayBackendCalls(
@@ -119,24 +122,29 @@ class RecycledItemsMainState extends State<RecycledItemsMain> {
               focusNode: _focusNode,
               autofocus: false,
               decoration: InputDecoration(
-                prefixIconColor: const Color.fromARGB(255, 174, 174, 174),
+                prefixIconColor:
+                isDarkMode ? Colors.white70 : const Color.fromARGB(255, 174, 174, 174),
                 contentPadding: const EdgeInsets.all(8.0),
-                fillColor: Colors.white,
+                fillColor: isDarkMode ? Colors.grey[800] : Colors.white,
                 filled: true,
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10.0),
-                  borderSide: const BorderSide(
-                      width: 2.0, color: Color.fromARGB(255, 174, 174, 174)),
+                  borderSide: BorderSide(
+                      width: 2.0,
+                      color: isDarkMode
+                          ? Colors.white54
+                          : const Color.fromARGB(255, 174, 174, 174)),
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10.0),
-                  borderSide: const BorderSide(
-                      width: 2.0, color: Color.fromARGB(255, 124, 124, 124)),
+                  borderSide: BorderSide(
+                      width: 2.0,
+                      color: isDarkMode ? Colors.white : const Color.fromARGB(255, 124, 124, 124)),
                 ),
-                prefixIcon: const Icon(Icons.search),
+                prefixIcon: Icon(Icons.search, color: isDarkMode ? Colors.white70 : Colors.black),
                 hintText: 'Search Recycled Products',
-                hintStyle: const TextStyle(
-                  color: Color.fromARGB(255, 174, 174, 174),
+                hintStyle: TextStyle(
+                  color: isDarkMode ? Colors.white70 : const Color.fromARGB(255, 174, 174, 174),
                   fontSize: 16.0,
                 ),
                 border: OutlineInputBorder(
@@ -155,7 +163,7 @@ class RecycledItemsMainState extends State<RecycledItemsMain> {
               child: SingleChildScrollView(
                 scrollDirection: Axis.vertical,
                 child: Padding(
-                  padding:const EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(10),
                   child: Column(
                     children: [
                       // Product Type ListView
@@ -183,7 +191,7 @@ class RecycledItemsMainState extends State<RecycledItemsMain> {
                           itemCount: productTypes.length,
                         ),
                       ),
-                  
+
                       // Sort and product grid view section
                       Padding(
                         padding: const EdgeInsets.symmetric(
@@ -193,9 +201,10 @@ class RecycledItemsMainState extends State<RecycledItemsMain> {
                           children: [
                             Text(
                               productTypes[selectedIndex]['topic']!,
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontSize: 20.0,
                                 fontWeight: FontWeight.bold,
+                                color: isDarkMode ? Colors.white : Colors.black,
                               ),
                             ),
                             Material(
@@ -203,7 +212,7 @@ class RecycledItemsMainState extends State<RecycledItemsMain> {
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10.0),
                               ),
-                              color: Colors.white,
+                              color: isDarkMode ? Colors.grey[800] : Colors.white,
                               child: InkWell(
                                 borderRadius: BorderRadius.circular(10.0),
                                 onTap: () {
@@ -217,7 +226,7 @@ class RecycledItemsMainState extends State<RecycledItemsMain> {
                                           children: [
                                             ListTile(
                                               selected:
-                                                  sortingType == 1 ? true : false,
+                                              sortingType == 1 ? true : false,
                                               selectedColor: Colors.green[800],
                                               title: const Text('Name: A to Z'),
                                               onTap: () {
@@ -230,21 +239,21 @@ class RecycledItemsMainState extends State<RecycledItemsMain> {
                                             ),
                                             ListTile(
                                               selected:
-                                                  sortingType == 2 ? true : false,
+                                              sortingType == 2 ? true : false,
                                               selectedColor: Colors.green[800],
                                               title: const Text('Name: Z to A'),
                                               onTap: () {
                                                 setState(() {
                                                   sortingType = 2;
                                                 });
-                  
+
                                                 sortProducts();
                                                 Navigator.pop(context);
                                               },
                                             ),
                                             ListTile(
                                               selected:
-                                                  sortingType == 3 ? true : false,
+                                              sortingType == 3 ? true : false,
                                               selectedColor: Colors.green[800],
                                               title: const Text(
                                                   'Price: Low to High'),
@@ -258,7 +267,7 @@ class RecycledItemsMainState extends State<RecycledItemsMain> {
                                             ),
                                             ListTile(
                                               selected:
-                                                  sortingType == 4 ? true : false,
+                                              sortingType == 4 ? true : false,
                                               selectedColor: Colors.green[800],
                                               title: const Text(
                                                   'Price: High to Low'),
@@ -277,8 +286,8 @@ class RecycledItemsMainState extends State<RecycledItemsMain> {
                                   );
                                 },
                                 child: Container(
-                                  decoration: const BoxDecoration(
-                                      color: Colors.white,
+                                  decoration: BoxDecoration(
+                                      color: isDarkMode ? Colors.grey[800] : Colors.white,
                                       borderRadius: BorderRadius.all(
                                           Radius.circular(10.0))),
                                   padding: const EdgeInsets.symmetric(
@@ -299,26 +308,26 @@ class RecycledItemsMainState extends State<RecycledItemsMain> {
                           ],
                         ),
                       ),
-                  
+
                       // Grid of products
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 10.0),
                         child: isLoading
                             ? const CircularProgressIndicator()
                             : GridView.builder(
-                                physics: const NeverScrollableScrollPhysics(),
-                                shrinkWrap: true,
-                                gridDelegate:
-                                    const SliverGridDelegateWithFixedCrossAxisCount(
-                                        crossAxisCount: 2,
-                                        childAspectRatio: 9/15,
-                                        crossAxisSpacing: 15.0,
-                                        mainAxisSpacing: 10.0),
-                                itemBuilder: (context, index) {
-                                  return ProductCard(item: _products[index]);
-                                },
-                                itemCount: _products.length,
-                              ),
+                          physics: const NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              childAspectRatio: 9/15,
+                              crossAxisSpacing: 15.0,
+                              mainAxisSpacing: 10.0),
+                          itemBuilder: (context, index) {
+                            return ProductCard(item: _products[index]);
+                          },
+                          itemCount: _products.length,
+                        ),
                       ),
                     ],
                   ),
